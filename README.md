@@ -1,5 +1,5 @@
-# warkingOTS
-ChangeLog:
+# warkingOTS 7.x
+ChangeLog
 # Geral
 <p>Adicionado Dead'cycle system. (*Sistema de motos que da +10 pontos de speed*).</p>
 <p>Adicionado Quest dead'cycle.</p>

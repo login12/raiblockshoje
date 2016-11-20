@@ -115,13 +115,15 @@ function Woe.moveBack(player, fromPosition, text)
 end
 
 function Woe.getGuildMembers(player, id)
-	local members = {}
-	for _, i in ipairs(getPlayersOnline()) do
-		if id == getPlayerGuildId(i) then
-			table.insert(members, i)
-		end
-	end
-	return members
+local players = Game.getPlayers()
+local i = db.getResult('select `guild` from id where name = \''..players..'\'')
+local members = {}
+
+  if id == i then
+   table.insert(members, i)
+  end
+
+ return members
 end
 
 function Woe.deco(text)
@@ -132,16 +134,16 @@ end
 
 function Woe.removePortals()
 	for _, i in ipairs(Castle.PrePortalsPos) do
-		if (getThingFromPos(i).itemid > 0) then
-			doRemoveItem(getThingFromPos(i).uid)
+		if (getThing:fromPosition(i).itemid > 0) then
+			item:remove(getThing:fromPosition(i).uid)
 		end
 	end
 end
 
 function Woe.removePre()
 	for _, i in ipairs(Castle.PreEmpes) do
-		if (isCreature(getThingFromPos(i).uid) == true) then
-			doRemoveCreature(getThingFromPos(i).uid)
+		if (creature:isCreature(getThing:fromPosition(i).uid) == true) then
+			creature:remove(getThing:fromPosition(i).uid)
 		end
 	end
 end
@@ -149,27 +151,19 @@ end
 function Woe.checkPre()
 	local Count = 0
 	for _, i in ipairs(Castle.PreEmpes) do
-		if (isCreature(getThingFromPos(i).uid) == false) then
+		if (creature:isCreature(getThing:fromPosition(i).uid) == false) then
 			Count = Count + 1
 		end
 	end
 	return (Count == #Castle.PreEmpes)
 end
 
-function Woe.isTime()
-	return (getGlobalStorageValue(stor.WoeTime) == 1)
+function Woe.isRegistered(player)
+	return (setStorageValue(player, stor.register) == 1)
 end
 
-function Woe.isStarted()
-	return (getGlobalStorageValue(stor.Started) == 1)
-end
-
-function Woe.isRegistered(cid)
-	return (getPlayerStorageValue(cid, stor.register) == 1)
-end
-
-function Woe.isInCastle(cid)
-	local myPos = getCreaturePosition(cid)
+function Woe.isInCastle(player)
+	local myPos = player:getPosition()
 	if (myPos.x >= Castle.salas.a.fromx and myPos.x <= Castle.salas.a.tox) then
 		if (myPos.y >= Castle.salas.a.fromy and myPos.y <= Castle.salas.a.toy) then
 			if isInArray({Castle.salas.a.z, Castle.salas.b.z, Castle.salas.c.z}, myPos.z) then
@@ -196,14 +190,14 @@ end
 -- extras
 
 function doSetItemActionId(uid, action)
-	doItemSetAttribute(uid, "aid", action)
+	item:setAttribute(uid, "aid", action)
 end
 
-function exhaust(cid, storevalue, exhausttime)
+function exhaust(player, storevalue, exhausttime)
 -- Exhaustion function by Alreth, v1.1 2006-06-24 01:31
 -- Returns 1 if not exhausted and 0 if exhausted
     newExhaust = os.time()
-    oldExhaust = getPlayerStorageValue(cid, storevalue)
+    oldExhaust = player:getStorageValue(storevalue)
     if (oldExhaust == nil or oldExhaust < 0) then
         oldExhaust = 0
     end
@@ -212,7 +206,7 @@ function exhaust(cid, storevalue, exhausttime)
     end
     diffTime = os.difftime(newExhaust, oldExhaust)
     if (diffTime >= exhausttime or diffTime < 0) then
-        setPlayerStorageValue(cid, storevalue, newExhaust) 
+        player:setStorageValue(storevalue, newExhaust) 
         return 1
     else
         return 0
@@ -233,7 +227,7 @@ guard_pos =
 	
 function Woe.check()
 	for storage = 24504, 24511 do
-		local pid = getGlobalStorageValue(storage)
+		local pid = Game.getStorageValue(storage)
 		if isCreature(pid) then
 			return false
 		end
@@ -243,16 +237,16 @@ end
 
 function Woe.summon()
 	for k, i in ipairs(guard_pos) do
-		local pid = doSummonCreature("guard", i)
-		setGlobalStorageValue(24503 + k, pid)
+		local pid = Game.getStorageValue("guard", i)
+		Game.getStorageValue(24503 + k, pid)
 	end
 end
 
 function Woe.remove()
 	for storage = 24504, 24511 do
-		local pid = getGlobalStorageValue(storage)
+		local pid = Game.getStorageValue(storage)
 		if isCreature(pid) then
-			doRemoveCreature(pid)
+			creature:remove(pid)
 		end
 	end
 end

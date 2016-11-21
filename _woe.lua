@@ -3,7 +3,7 @@ dofile('data/lib/var.woe')
 local config = woe_config
 
 fileStore = true
-
+stor.register = 8589
 infoFile = 'tmp.woe'
 infoLua = {}
 
@@ -158,8 +158,22 @@ function Woe.checkPre()
 	return (Count == #Castle.PreEmpes)
 end
 
+function Woe.isTime()
+	return (Game.getStorageValue(stor.WoeTime) == 1)
+end
+
+function Woe.isStarted()
+	return (Game.getStorageValue(stor.Started) == 1)
+end
+
 function Woe.isRegistered(player)
-	return (setStorageValue(player, stor.register) == 1)
+
+	if player:getStorage(8589) == 1 then
+	player:toTeleport(31783, 31936, 7)
+	else
+	player:sendTextMessage(MESSAGE_STATUS_CONSOLE_BLUE, "you are not registered use !guild")
+	end
+	return true
 end
 
 function Woe.isInCastle(player)
@@ -238,7 +252,7 @@ end
 function Woe.summon()
 	for k, i in ipairs(guard_pos) do
 		local pid = Game.getStorageValue("guard", i)
-		Game.getStorageValue(24503 + k, pid)
+		Game.setStorageValue(24503 + k, pid)
 	end
 end
 

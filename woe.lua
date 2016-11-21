@@ -62,7 +62,7 @@ Castle_bases = 3134 --Aid of empes bases
 --}
 
 stor_register = 8589 --Storage for register players
-stor_recall = 23155
+stor_recall = 23155 --Recall delay storage
 stor_WoeTime = 7802 --Global storage, about time of WoE (started or not)
 stor_Started = 7801 --Global storage started
 
@@ -74,6 +74,12 @@ infoLua = {}              --
 Woe = {}                  --
 Woe.__index = Woe         --
 ----------------------------
+
+function Woe.setup()
+	db.query('DROP TABLE IF EXISTS woe')
+	db.query("CREATE TABLE `woe` (`id` INT( 11 ) NOT NULL AUTO_INCREMENT ,`started` INT( 11 ) NOT NULL ,`guild` INT( 11 ) NOT NULL ,`breaker` INT( 11 ) NOT NULL ,`time` INT( 11 ) NOT NULL ,PRIMARY KEY ( `id` ) ,UNIQUE (`id`)) ENGINE = MYISAM")
+	Game.broadcastMessage("DB Added [...]", config.bcType)
+end
 
 function Woe.getInfo()
 	if fileStore then

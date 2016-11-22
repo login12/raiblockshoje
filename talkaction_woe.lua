@@ -5,13 +5,13 @@ function onSay(player, words, param)
 		return true
 	end	
 		
-	------------------------------------------------------
-	Woe.getInfo()	                                    --
+	----------------------------------------------------------
+	Woe.getInfo()	                                        --
 	local myTable = {}	                                --
-	for _, i in ipairs({"%d", "%B", "%Y", "%X"}) do     --  Don't change anything!
+	for _, i in ipairs({"%d", "%B", "%Y", "%X"}) do         --  Don't change anything!
 		table.insert(myTable, os.date(i, infoLua[4]))   --
-	end                                                 --
-	------------------------------------------------------
+	end                                                     --
+	----------------------------------------------------------
 		
 	if Woe.isStarted() then
 		text = "Time left = " ..  Woe.timeToEnd().mins .. ":" .. Woe.timeToEnd().secs .. "\nActually the castle " .. Castle_name .. " is owned by " .. Woe.guildName() .. ".\n" .. Woe.breakerName() .. " broke the empe at "..myTable[1].." / "..myTable[2].." / "..myTable[3].." at time "..myTable[4].."."

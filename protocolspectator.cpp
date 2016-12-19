@@ -192,7 +192,7 @@ void ProtocolSpectator::syncKnownCreatureSets()
 		disconnectSpectator("A sync error has occured.");
 		return;
 	}
-	sendEmptyTileOnPlayerPos(tile, playerPos);
+	//sendEmptyTileOnPlayerPos(tile, playerPos);
 
 	bool known;
 	uint32_t removedKnown;
@@ -217,7 +217,7 @@ void ProtocolSpectator::syncKnownCreatureSets()
 		writeToOutputBuffer(msg);
 	}
 
-	sendUpdateTile(tile, playerPos);
+	//sendUpdateTile(tile, playerPos);
 }
 
 void ProtocolSpectator::syncChatChannels()

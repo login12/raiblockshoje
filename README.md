@@ -1,3 +1,4 @@
-# warkingOTS 7.x
+# Raiblocks Hoje!
 ChangeLog
 # Geral
+Aplicativo para verificação da cotação atual do Raiblocks!

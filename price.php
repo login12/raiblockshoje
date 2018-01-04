@@ -10,5 +10,5 @@
 ?>
 
 <ul>
-   <li>Price: <?=$usd_price ?> $ / <?=$bitcoin_price ?> BTC
+   <li>Pricex: <?=$usd_price ?> $ / <?=$bitcoin_price ?> BTC
 </ul>
